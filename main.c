@@ -23,44 +23,46 @@ void bubble_sort(int *a, int n, int *k, int *e)
 }
 
 
-void quicksort(int *a, int low, int high,int *k , int *e)
+void swap(int* a, int* b)
 {
-    int tmp = 0;
-    int i = low;
-    int j = high;
-    int pivot = a[(i + j) / 2];
-    int pi_index = (i + j) / 2;
+    int t = *a;
+    *a = *b;
+    *b = t;
+}
 
 
+int partition (int *a, int low, int high,int *k,int *e)
+{
+    int pivot = a[high];
+    int i = (low - 1);
 
-    while (i <= j)
+    for (int j = low; j <= high - 1; j++)
     {
-        while (a[i] < pivot)
+        if (a[j] < pivot)
         {
-            *k = *k + 1;
             i++;
-        }
-        while (a[j] > pivot)
-        {
-            *k = *k + 1;
-            j--;
-        }
-        if (i <= j)
-        {
-            tmp = a[i];
-            a[i] = a[j];
-            a[j] = tmp;
+            swap(&a[i], &a[j]);
             *e = *e + 1;
-            i++;
-            j--;
         }
         *k = *k + 1;
     }
-    if (j > low)
-        quicksort(a, low, j, k, e);
-    if (i < high)
-        quicksort(a, i, high, k, e);
+    swap(&a[i + 1], &a[high]);
+    *e = *e + 1;
+    return (i + 1);
 }
+
+
+void quicksort(int *a, int low, int high, int *k, int *e)
+{
+    if (low < high)
+    {
+        int pi = partition(a, low, high, k, e);
+
+        quicksort(a, low, pi - 1, k, e);
+        quicksort(a, pi + 1, high, k, e);
+    }
+}
+
 
 void insertion_sort(int *a, int n, int *k, int *e)
 {
