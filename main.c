@@ -38,16 +38,22 @@ int partition (int *a, int low, int high,int *k,int *e)
 
     for (int j = low; j <= high - 1; j++)
     {
-        if (a[j] < pivot)
+        if(a[j] < pivot)
         {
             i++;
-            swap(&a[i], &a[j]);
-            *e = *e + 1;
+            if (i != j)
+            {
+                swap(&a[i], &a[j]);
+                *e = *e + 1;
+            }
         }
         *k = *k + 1;
     }
-    swap(&a[i + 1], &a[high]);
-    *e = *e + 1;
+    if (i+1 != high)
+    {
+        swap(&a[i + 1], &a[high]);
+        *e = *e + 1;
+    }
     return (i + 1);
 }
 
